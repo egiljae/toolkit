@@ -1,0 +1,32 @@
+#! /bin/bash
+# Tools I need
+
+if (( $UID != 0 )); then
+    echo "*!* FATAL: must be run by root"
+    exit
+fi
+
+echo -n "Is machine a server? y/n: "
+read answer
+
+if [[ $answer == "y" ]]; then
+    tools="vim zsh git curl tmux htop"
+elif [[ $answer == "n" ]]; then
+    tools="vim tmux curl htop gnome-shell gnome-tweak-tool nautilus-dropbox vlc zsh git flashplugin-installer unrar hibernate"
+else
+    echo "Aborting.."
+    exit 1
+fi
+
+function install() {
+    sudo apt-get install -y $1
+}
+
+echo "Installing all the good stuff.."
+sleep 2
+for tool in $tools; do
+    install $tool
+done
+
+echo "Changing shell.."
+sudo chsh -s /bin/zsh `whoami`
