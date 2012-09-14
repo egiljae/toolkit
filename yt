@@ -1,0 +1,12 @@
+#!/bin/bash
+if [[ $1 == "install" ]]; then
+    sudo apt-get install ffmpeg libavcodec-extra-52
+    exit 0
+fi
+url=$1
+newfile=`$HOME/toolkit/youtube-dl.py -o %\(title\)s.%\(ext\)s $url | grep '^\[download\]' | cut -d ' ' -f 3-`
+
+ext=$(echo $newfile | egrep "\.[a-Z0-9]{3}" -o | sed 's/\.//')
+
+ffmpeg -i "$newfile" -f mp3 -ab 192000 -vn "${newfile/$ext/mp3}"
+rm "$newfile"

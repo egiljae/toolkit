@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# I want to know my battery percentage when running on battery power
+if which acpi &> /dev/null; then
+    BATTSTATE="$(acpi -b)"
+    let BATTPRCNT="$(echo $BATTSTATE | awk '{print $4}' | tr -d "%,")"
+    if [[ -z "$BATTPRCNT" ]]; then
+       PR_BATTERY=""
+    elif [[ "$BATTPRCNT" -lt 15 ]]; then
+        PR_BATTERY="$PR_RED batt $BATTPRCNT"
+    elif [[ "$BATTPRCNT" -lt 80 ]]; then
+        PR_BATTERY="$PR_YELLOW batt $BATTPRCNT"
+    else
+       PR_BATTERY="$PR_GREEN batt $BATTPRCNT"
+    fi
+    echo $PR_BATTERY
+fi

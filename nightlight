@@ -1,0 +1,4 @@
+#! /bin/bash
+# Sets the macbook pro backlight to a lower value than is possible with the hotkey
+
+echo 1 | sudo tee /sys/class/backlight/nv_backlight/brightness
