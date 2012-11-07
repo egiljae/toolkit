@@ -1,0 +1,31 @@
+#! /bin/bash
+
+if (( $UID != 0 )); then
+    echo "Not root, exiting.."
+    exit 1
+fi
+
+if (( $# != 1 )); then
+    echo "Missing arguments"
+    exit 1
+fi
+
+if ! command -v wipe; then
+    echo "wipe missing"
+    exit 1
+fi
+
+if ! command -v shred; then
+    echo "shred missing"
+    exit 1
+fi
+
+disk=$(fdisk -l $1 | grep $1 | head -n 1)
+echo -n "Are you sure you want to wipe $disk? (y/n): "
+read answer
+
+if [[ $answer == "y" ]]; then
+    sudo wipe -q $1
+    sudo shred -n 2 -vz $1
+    sudo dd if=/dev/zero of=$1
+fi
