@@ -1,0 +1,15 @@
+#! /bin/bash
+lspci | grep -q "Broadcom Corporation BCM4322"
+if (( $? != 0 )); then
+    echo "Wrong Broadcom chipset, exiting.."
+    exit 1
+fi
+
+ping -W 2 -c 1 google.com &> /dev/null
+if (( $? == 1 )); then
+    echo "apt-get some internetz plix!"
+    exit 1
+fi
+
+sudo apt-get --purge remove bcmwl-kernel-source
+sudo apt-get install b43-fwcutter firmware-b43-installer
