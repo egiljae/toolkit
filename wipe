@@ -1,4 +1,6 @@
 #! /bin/bash
+# Utility to wipe a harddrive
+# Uses wipe and shred. Finally the drive is wiped clean with dd.
 
 if (( $UID != 0 )); then
     echo "Not root, exiting.."
