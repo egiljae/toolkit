@@ -1,12 +1,12 @@
 #! /bin/bash
 
 IP=$(curl -s ifconfig.me)
-if (( $? == 1)); then
+if (( $? != 0)); then
     IP=$(curl -s checkip.dyndns.com | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
     if (( $? != 0 )); then
-        echo "No internet connection!"
+        echo -e "Unable to obtain public IP adress.\nNo connection?"
     fi
 fi
 if [[ "$IP" != "" ]]; then
-    echo "Current public IP: $IP"
+    echo "Public IP: $IP"
 fi
