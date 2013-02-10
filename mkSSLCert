@@ -1,0 +1,11 @@
+#! /bin/bash
+
+if (( $# != 1 )); then
+    echo "Usage: $0 certname"
+    exit 1
+fi
+keyname=/tmp/$1
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $keyname.key -out $keyname.crt
+
+echo -e "\nNew cert/key saved to $keyname"

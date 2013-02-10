@@ -2,7 +2,7 @@
 # Sets the fan speed to a decent level
 
 if (( $# != 1)); then
-    echo "Usage: $basename --[silence|blast]"
+    echo "Usage: $0 --[silence|blast]"
 fi
 
 if command -v fancontrol &> /dev/null; then
