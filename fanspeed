@@ -31,4 +31,4 @@ echo -n " 2"
 sleep 1
 echo " 1"
 sleep 1
-sensors | grep fan
+sensors | grep -i fan
