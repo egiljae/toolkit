@@ -1,10 +1,11 @@
 #! /bin/bash
 
-IP=$(curl -s ifconfig.me)
+IP=$(curl --max-time 2 -s ifconfig.me)
 if (( $? != 0)); then
-    IP=$(curl -s checkip.dyndns.com | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
+    IP=$(curl --max-time 3 -s checkip.dyndns.com | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
     if (( $? != 0 )); then
         echo -e "Unable to obtain public IP adress.\nNo connection?"
+        exit 1
     fi
 fi
 if [[ "$IP" != "" ]]; then
