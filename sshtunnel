@@ -1,9 +1,9 @@
 #! /bin/bash
-echo -n "Username: "
+echo -n "Username at remote host: "
 read user
-echo -n "Remote server: "
+echo -n "Remote host: "
 read host
-echo -n "Port: "
+echo -n "Tunnel port: "
 read port
 if [[ $port == "" ]]; then
     port="8080"

@@ -8,22 +8,28 @@ if (( $UID != 0 )); then
 fi
 
 if (( $# != 1 )); then
-    echo "Missing arguments"
+    echo "ERROR: Missing device"
+    echo "Usage:$basename $0 device"
     exit 1
 fi
 
-if ! command -v wipe; then
-    echo "wipe missing"
+if ! command -v wipe &> /dev/null; then
+    echo "ERROR: wipe missing"
     exit 1
 fi
 
-if ! command -v shred; then
-    echo "shred missing"
+if ! command -v shred &> /dev/null; then
+    echo "ERROR: shred missing"
     exit 1
 fi
 
 disk=$(fdisk -l $1 | grep $1 | head -n 1)
-echo -n "Are you sure you want to wipe $disk? (y/n): "
+if [[ $disk != "" ]]; then
+    echo -n "Are you sure you want to wipe $disk? (y/n): "
+else
+    echo "ERROR: $1 not found"
+    exit 1
+fi
 read answer
 
 if [[ $answer == "y" ]]; then
